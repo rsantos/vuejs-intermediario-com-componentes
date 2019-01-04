@@ -42,12 +42,9 @@
                     <thead>
                         <tr>
                             <th>Nome</th>
-                            <th>
-                                <a href="#" @click.prevent="orientacao = orientacao == 'desc' ? 'asc' : 'desc'">Pontos</a>
+                            <th v-for="(coluna, indice) in ordem.colunas">                                
+                                <a href="#" @click.prevent="ordenar(indice)">{{ coluna | ucwords}}</a>
                             </th>
-                            <th>GM</th>
-                            <th>GS</th>
-                            <th>Saldo</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -59,7 +56,8 @@
                             <td>{{ time.pontos }}</td>
                             <td>{{ time.gm }}</td>
                             <td>{{ time.gs }}</td>
-                            <td>{{ time | saldo }}</td>
+                            <!-- <td>{{ time | saldo }}</td> -->
+                            <td>{{ time.saldo }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -92,6 +90,7 @@
                 this.pontos = 0;
                 this.gm = 0;
                 this.gs = 0;
+                this.saldo = 0;
             }
 
             fimJogo(timeVisitante, golsMarcados, golsSofridos) {
@@ -133,6 +132,7 @@
                 this.pontos += pontos
                 this.gm += golsMarcados
                 this.gs += golsSofridos
+                this.saldo += this.gm - this.gs
             }
         }
 
@@ -140,7 +140,10 @@
             el: "#app",
             data: {
                 gols: 3,
-                orientacao: 'desc',
+                ordem: {
+                    colunas: ['pontos', 'gm', 'gs', 'saldo'],
+                    orientacao: ['desc', 'desc', 'asc', 'desc']
+                },
                 times: [
                     new Time('palmeiras', '/assets/palmeiras_60x60.png'),
                     new Time('internacional', '/assets/internacional_60x60.png'),
@@ -177,13 +180,13 @@
             },
             computed: {
                 timesLibertadores() {
-                    return _.orderBy(this.times, 'pontos', 'desc').slice(0,6)
+                    return _.orderBy(this.times, this.ordem.colunas, this.ordem.orientacao).slice(0,6)
                 },
                 timesRebaixados() {
-                    return _.orderBy(this.times, 'pontos', 'desc').slice(16,20)
+                    return _.orderBy(this.times, this.ordem.colunas, this.ordem.orientacao).slice(16,20)
                 },
                 timesOrdenados() {
-                    return _.orderBy(this.times, 'pontos', this.orientacao)
+                    return _.orderBy(this.times, this.ordem.colunas, this.ordem.orientacao)
                 }
             },
             methods: {
@@ -210,6 +213,10 @@
                     let timeCasa = this.novoJogo.casa.time
                     timeCasa.fimJogo(timeAdversario, golsMarcados, golsSofridos)
                     this.visao = 'tabela'
+                },
+                ordenar(indice) {
+                    // this.ordem.orientacao[indice] = this.ordem.orientacao[indice] == 'desc' ? 'asc' : 'desc'
+                    this.$set(this.ordem.orientacao, indice, this.ordem.orientacao[indice] == 'desc' ? 'asc' : 'desc')
                 }
             },
             filters: {
