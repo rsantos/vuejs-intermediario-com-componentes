@@ -23,39 +23,46 @@
                 <button class="btn btn-primary" @click="criarNovoJogo">Novo jogo</button>
             </div>
         </div>
-        <form class="form-inline">
-            <input type="text" class="form-control col-md-1" v-model="novoJogo.casa.gols"/>
-            {{ novoJogo.casa.time ? novoJogo.casa.time.nome : ''}}
-            <img :src="novoJogo.casa.time ? novoJogo.casa.time.escudo : ''" alt="" class="escudo">
-            <span>X</span>            
-            <img :src="novoJogo.fora.time ? novoJogo.fora.time.escudo : ''" alt="" class="escudo">
-            {{ novoJogo.fora.time ? novoJogo.fora.time.nome : ''}}
-            <input type="text" class="form-control col-md-1" v-model="novoJogo.fora.gols"/>            
-            <button type="button" class="btn btn-primary" @click="fimJogo">Fim de jogo</button>
-        </form>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Nome</th>
-                    <th>Pontos</th>
-                    <th>GM</th>
-                    <th>GS</th>
-                    <th>Saldo</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="time in times">
-                    <td>
-                        <img :src="time.escudo" alt="" class="escudo">
-                        {{ time.nome }}
-                    </td>
-                    <td>{{ time.pontos}}</td>
-                    <td>{{ time.gm }}</td>
-                    <td>{{ time.gs }}</td>
-                    <td>0</td>
-                </tr>
-            </tbody>
-        </table>
+        <br />
+        <div class="row">
+            <div class="col-md-12" v-show="visao!='tabela'">
+                <form class="form-inline">
+                    <input type="text" class="form-control col-md-1" v-model="novoJogo.casa.gols"/>
+                    {{ novoJogo.casa.time ? novoJogo.casa.time.nome : ''}}
+                    <img :src="novoJogo.casa.time ? novoJogo.casa.time.escudo : ''" alt="" class="escudo">
+                    <span>X</span>
+                    <img :src="novoJogo.fora.time ? novoJogo.fora.time.escudo : ''" alt="" class="escudo">
+                    {{ novoJogo.fora.time ? novoJogo.fora.time.nome : ''}}
+                    <input type="text" class="form-control col-md-1" v-model="novoJogo.fora.gols"/>
+                    <button type="button" class="btn btn-primary" @click="fimJogo">Fim de jogo</button>
+                </form>
+            </div>
+            <div class="col-md-12" v-show="visao==='tabela'">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Pontos</th>
+                            <th>GM</th>
+                            <th>GS</th>
+                            <th>Saldo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="time in times">
+                            <td>
+                                <img :src="time.escudo" alt="" class="escudo">
+                                {{ time.nome }}
+                            </td>
+                            <td>{{ time.pontos}}</td>
+                            <td>{{ time.gm }}</td>
+                            <td>{{ time.gs }}</td>
+                            <td>0</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
     <!-- development version, includes helpful console warnings -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
@@ -146,7 +153,8 @@
                         time: null,
                         gols: 0
                     }
-                }
+                },
+                visao: 'tabela'
             },
             methods: {
                 showAlert() {
@@ -163,8 +171,7 @@
                     this.novoJogo.casa.gols = 0
                     this.novoJogo.fora.time = this.times[indiceFora]
                     this.novoJogo.fora.gols = 0
-
-                    console.log(this.novoJogo)
+                    this.visao = 'placar'
                 },
                 fimJogo() {
                     var golsMarcados = parseInt(this.novoJogo.casa.gols)
@@ -172,6 +179,7 @@
                     var timeAdversario = this.novoJogo.fora.time
                     var timeCasa = this.novoJogo.casa.time
                     timeCasa.fimJogo(timeAdversario, golsMarcados, golsSofridos)
+                    this.visao = 'tabela'
                 }
             }
         })
