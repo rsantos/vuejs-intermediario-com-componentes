@@ -52,23 +52,12 @@
                             <td>{{ time.pontos }}</td>
                             <td>{{ time.gm }}</td>
                             <td>{{ time.gs }}</td>
-                            <!-- <td>{{ time | saldo }}</td> -->
                             <td>{{ time.saldo }}</td>
                         </tr>
                     </tbody>
                 </table>
-                <h3>Time classificados para libertadores</h3>
-                <ul>
-                    <li v-for="time in timesLibertadores">
-                        <clube :time="time"></clube>
-                    </li>
-                </ul>
-                <h3>Time rebaixados</h3>
-                <ul>
-                    <li v-for="time in timesRebaixados">
-                        <clube :time="time"></clube>
-                    </li>
-                </ul>
+                <clubes-libertadores :times="timesOrdenados"></clubes-libertadores>
+                <clubes-rebaixados :times="timesOrdenados"></clubes-rebaixados>
             </div>
         </div>
     </div>

@@ -20,6 +20,44 @@ Vue.component('clube', {
   `
 })
 
+Vue.component('clubes-libertadores', {
+  props: ['times'],
+  template: `
+  <div>
+    <h3>Time libertadores</h3>
+    <ul>
+        <li v-for="time in timesLibertadores">
+            <clube :time="time"></clube>
+        </li>
+    </ul>
+  </div>
+  `,
+  computed: {
+    timesLibertadores() {
+      return _.orderBy(this.times).slice(0, 6)
+    }
+  }
+})
+
+Vue.component('clubes-rebaixados', {
+    props: ['times'],
+    template: `
+    <div>
+      <h3>Time rebaixados</h3>
+      <ul>
+          <li v-for="time in timesRebaixados">
+              <clube :time="time"></clube>
+          </li>
+      </ul>
+    </div>
+    `,
+    computed: {
+      timesRebaixados() {
+        return _.orderBy(this.times).slice(16, 20)
+      }
+    }
+})
+
 new Vue({
   el: "#app",
   data: {
@@ -64,18 +102,11 @@ new Vue({
     visao: 'tabela'
   },
   computed: {
-    timesLibertadores() {
-      return _.orderBy(this.times, this.ordem.colunas, this.ordem.orientacao).slice(0, 6)
-    },
-    timesRebaixados() {
-      return _.orderBy(this.times, this.ordem.colunas, this.ordem.orientacao).slice(16, 20)
-    },
     timesOrdenados() {
       return _.orderBy(this.times, this.ordem.colunas, this.ordem.orientacao)
     },
     timesFiltrados() {
-      let times = _.orderBy(this.times, this.ordem.colunas, this.ordem.orientacao)
-      return _.filter(times, time => {
+      return _.filter(this.timesOrdenados, time => {
         let busca = this.busca.toLowerCase()
         return time.nome.toLowerCase().indexOf(busca) >= 0
       })
