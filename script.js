@@ -1,3 +1,7 @@
+Vue.filter('ucwords', value => {
+  return value.charAt(0).toUpperCase() + value.slice(1)
+})
+
 Vue.component('titulo', {
   template: `
   <div class="row">
@@ -110,9 +114,6 @@ new Vue({
   filters: {
     saldo(time) {
       return time.gm - time.gs
-    },
-    ucwords(value) {
-      return value.charAt(0).toUpperCase() + value.slice(1)
     }
   }
 })
