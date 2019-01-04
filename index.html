@@ -47,7 +47,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="time in timesFiltrados">
+                        <tr v-for="(time, indice) in timesFiltrados" :class="{'table-success': indice < 6}">
                             <td>
                                 <clube :time="time"></clube>
                             </td>
