@@ -6,28 +6,33 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Curso School of Net - Vue</title>
+        <title>Curso School of Net - Vue Components</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="">
     </head>
     <body>
         <div id="app">
-            <input type="text" v-model="variavel">{{ variavel }}
-            <input type="text" v-model="variavel2">{{ variavel2 }}
-            <p>
-                {{ parseInt(variavel) + parseInt(variavel2) }}
-            </p>            
+            <contar></contar>
+            <nome></nome>
         </div>
         <!-- development version, includes helpful console warnings -->
         <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
         <script>
+            Vue.component('contar', {
+                template: "<h1>Olá mundo!!</h1>"
+            })
+
+            Vue.component('nome', {
+                template: `
+                    <div>
+                        Rafael Santos
+                        <p>lorem ipsum</p>
+                    </div>`
+            })
+
             new Vue({
-                el: "#app",
-                data: {
-                    variavel: 3,
-                    variavel2: 5
-                }
+                el: "#app"
             })
         </script>
     </body>
