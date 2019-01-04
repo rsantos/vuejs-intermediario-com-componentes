@@ -49,8 +49,7 @@
                     <tbody>
                         <tr v-for="time in timesFiltrados">
                             <td>
-                                <img :src="time.escudo" alt="" class="escudo">
-                                {{ time.nome | ucwords }}
+                                <clube :time="time"></clube>
                             </td>
                             <td>{{ time.pontos }}</td>
                             <td>{{ time.gm }}</td>
@@ -63,15 +62,13 @@
                 <h3>Time classificados para libertadores</h3>
                 <ul>
                     <li v-for="time in timesLibertadores">
-                        <img :src="time.escudo" alt="" class="escudo">
-                        {{ time.nome | ucwords }}
+                        <clube :time="time"></clube>
                     </li>
                 </ul>
                 <h3>Time rebaixados</h3>
                 <ul>
                     <li v-for="time in timesRebaixados">
-                        <img :src="time.escudo" alt="" class="escudo">
-                        {{ time.nome | ucwords }}
+                        <clube :time="time"></clube>
                     </li>
                 </ul>
             </div>
