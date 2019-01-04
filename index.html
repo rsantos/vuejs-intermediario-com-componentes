@@ -24,40 +24,10 @@
         <br />
         <div class="row">
             <div class="col-md-12" v-show="visao!='tabela'">
-                <form class="form-inline">
-                    <input type="text" class="form-control col-md-1" v-model="novoJogo.casa.gols"/>
-                    <clube :time="novoJogo.casa.time" invertido="true" v-if="novoJogo.casa.time"></clube>
-                    <span>X</span>
-                    <clube :time="novoJogo.fora.time" v-if="novoJogo.fora.time"></clube>
-                    <input type="text" class="form-control col-md-1" v-model="novoJogo.fora.gols"/>
-                    <button type="button" class="btn btn-primary" @click="fimJogo">Fim de jogo</button>
-                </form>
+                <novo-jogo :time-casa="timeCasa" :time-fora="timeFora"></novo-jogo>
             </div>
             <div class="col-md-12" v-show="visao==='tabela'">
-                <input type="text" class="form-control" v-model="busca" placeholder="Filtrar time">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Nome</th>
-                            <th v-for="(coluna, indice) in ordem.colunas">                                
-                                <a href="#" @click.prevent="ordenar(indice)">{{ coluna | ucwords}}</a>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="(time, indice) in timesFiltrados" :class="{'table-success': indice < 6}">
-                            <td>
-                                <clube :time="time"></clube>
-                            </td>
-                            <td>{{ time.pontos }}</td>
-                            <td>{{ time.gm }}</td>
-                            <td>{{ time.gs }}</td>
-                            <td>{{ time.saldo }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <clubes-libertadores :times="timesOrdenados"></clubes-libertadores>
-                <clubes-rebaixados :times="timesOrdenados"></clubes-rebaixados>
+                <tabela-clubes :times="times"></tabela-clubes>
             </div>
         </div>
     </div>
