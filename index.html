@@ -26,11 +26,9 @@
             <div class="col-md-12" v-show="visao!='tabela'">
                 <form class="form-inline">
                     <input type="text" class="form-control col-md-1" v-model="novoJogo.casa.gols"/>
-                    {{ novoJogo.casa.time ? novoJogo.casa.time.nome : ''}}
-                    <img :src="novoJogo.casa.time ? novoJogo.casa.time.escudo : ''" alt="" class="escudo">
+                    <clube :time="novoJogo.casa.time" invertido="true" v-if="novoJogo.casa.time"></clube>
                     <span>X</span>
-                    <img :src="novoJogo.fora.time ? novoJogo.fora.time.escudo : ''" alt="" class="escudo">
-                    {{ novoJogo.fora.time ? novoJogo.fora.time.nome : ''}}
+                    <clube :time="novoJogo.fora.time" v-if="novoJogo.fora.time"></clube>
                     <input type="text" class="form-control col-md-1" v-model="novoJogo.fora.gols"/>
                     <button type="button" class="btn btn-primary" @click="fimJogo">Fim de jogo</button>
                 </form>

@@ -11,11 +11,11 @@ Vue.component('titulo', {
 })
 
 Vue.component('clube', {
-  props: ['time'],
+  props: ['time', 'invertido'],
   template: `
-  <div>
-    <img :src="time.escudo" alt="" class="escudo">
-    {{ time.nome | ucwords }}
+  <div style="display: flex; flex-direction: row">
+    <img :src="time.escudo" alt="" class="escudo" :style="{order: invertido == 'true' ? 2 : 1}">
+    <span :style="{order: invertido == 'true' ? 1 : 2}">{{ time.nome | ucwords }}</span>
   </div>
   `
 })
