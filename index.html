@@ -42,14 +42,16 @@
                     <thead>
                         <tr>
                             <th>Nome</th>
-                            <th>Pontos</th>
+                            <th>
+                                <a href="#" @click.prevent="orientacao = orientacao == 'desc' ? 'asc' : 'desc'">Pontos</a>
+                            </th>
                             <th>GM</th>
                             <th>GS</th>
                             <th>Saldo</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="time in times">
+                        <tr v-for="time in timesOrdenados">
                             <td>
                                 <img :src="time.escudo" alt="" class="escudo">
                                 {{ time.nome | ucwords }}
@@ -80,6 +82,8 @@
     </div>
     <!-- development version, includes helpful console warnings -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.11/lodash.min.js"></script>
+
     <script>
         class Time {
             constructor(nome, escudo) {
@@ -136,6 +140,7 @@
             el: "#app",
             data: {
                 gols: 3,
+                orientacao: 'desc',
                 times: [
                     new Time('palmeiras', '/assets/palmeiras_60x60.png'),
                     new Time('internacional', '/assets/internacional_60x60.png'),
@@ -172,10 +177,13 @@
             },
             computed: {
                 timesLibertadores() {
-                    return this.times.slice(0,6)
+                    return _.orderBy(this.times, 'pontos', 'desc').slice(0,6)
                 },
                 timesRebaixados() {
-                    return this.times.slice(16,20)
+                    return _.orderBy(this.times, 'pontos', 'desc').slice(16,20)
+                },
+                timesOrdenados() {
+                    return _.orderBy(this.times, 'pontos', this.orientacao)
                 }
             },
             methods: {
@@ -186,7 +194,7 @@
                     console.log($event)
                 },
                 criarNovoJogo() {
-                    var indiceCasa = Math.floor(Math.random() * 20),
+                    let indiceCasa = Math.floor(Math.random() * 20),
                         indiceFora = Math.floor(Math.random() * 20)
 
                     this.novoJogo.casa.time = this.times[indiceCasa]
@@ -196,10 +204,10 @@
                     this.visao = 'placar'
                 },
                 fimJogo() {
-                    var golsMarcados = parseInt(this.novoJogo.casa.gols)
-                    var golsSofridos = parseInt(this.novoJogo.fora.gols)
-                    var timeAdversario = this.novoJogo.fora.time
-                    var timeCasa = this.novoJogo.casa.time
+                    let golsMarcados = parseInt(this.novoJogo.casa.gols)
+                    let golsSofridos = parseInt(this.novoJogo.fora.gols)
+                    let timeAdversario = this.novoJogo.fora.time
+                    let timeCasa = this.novoJogo.casa.time
                     timeCasa.fimJogo(timeAdversario, golsMarcados, golsSofridos)
                     this.visao = 'tabela'
                 }
