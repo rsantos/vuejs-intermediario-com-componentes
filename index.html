@@ -7,10 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <style>
-        .escudo {
-            width: 30px;
-            height: 30px;
-        }
+        .escudo {width: 30px;height: 30px;}
     </style>
 </head>
 <body>
@@ -24,7 +21,7 @@
         <br />
         <div class="row">
             <div class="col-md-12" v-show="visao!='tabela'">
-                <novo-jogo :time-casa="timeCasa" :time-fora="timeFora"></novo-jogo>
+                <novo-jogo :time-casa="timeCasa" :time-fora="timeFora" @fim-jogo="showTabela($event)"></novo-jogo>
             </div>
             <div class="col-md-12" v-show="visao==='tabela'">
                 <tabela-clubes :times="times"></tabela-clubes>

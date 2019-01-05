@@ -138,7 +138,7 @@ Vue.component('novo-jogo', {
       let golsMarcados = parseInt(this.golsCasa)
       let golsSofridos = parseInt(this.golsFora)
       this.timeCasa.fimJogo(this.timeFora, golsMarcados, golsSofridos)
-      this.visao = 'tabela'
+      this.$emit('fim-jogo', {golsCasa: this.golsCasa, golsFora: this.golsFora})
     }
   }
 })
@@ -181,11 +181,10 @@ new Vue({
       this.timeCasa = this.times[indiceCasa]
       this.timeFora = this.times[indiceFora]
       this.visao = 'placar'
-    }
-  },
-  filters: {
-    saldo(time) {
-      return time.gm - time.gs
+    },
+    showTabela(event){
+      console.log(event);
+      this.visao = 'tabela'
     }
   }
 })
